@@ -1,0 +1,36 @@
+POST https://thito-helpdesk.herokuapp.com/users/authenticate
+Content-Type: application/json
+
+{
+    "password":"alpha000" ,
+    "username": "kutlos@thitoholdings.co.bw"
+}
+
+###
+POST http://localhost:3001/users/sendOTP
+Content-Type: application/json
+
+{
+    "email":"kutlos@thitoholdings.co.bw"
+}
+
+###
+GET http://localhost:3001/users/checkEmail/kutlos@thitoholdings.co.bw
+###
+GET http://localhost:3001/reports/reports
+###
+GET http://localhost:3001/users/getUsers
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJRCI6NDAsImZpcnN0X25hbWUiOiJLdXRsbyIsImxhc3RfbmFtZSI6IlNla3dhbW90ZSIsImVtYWlsX2FkZHJlc3MiOiJrdXRsb3NAdGhpdG9ob2xkaW5ncy5jby5idyIsInN5c3RlbV9yb2xlIjoic3VwZXJ2aXNvciIsImRlcGFydG1lbnQiOiJUaGl0byBIb2xkaW5ncyIsInBhc3N3b3JkIjoibVhWTmtPQXlwVGg4cU12VUFObm8waGM3UTJ6VTQ4dUJWWkxUTGNPeThOcz0iLCJhY2Nlc3MiOiJmYWxzZSIsIm9mZmljZSI6InRydWUiLCJjcmVhdGlvbl9kYXRlIjoiMS03LzIwMjIiLCJoZWxwZGVza19yb2xlIjpudWxsLCJoZWxwZGVza19kZXBhcnRtZW50IjoiV0VCIiwiaWF0IjoxNjQ1MTg0MDAwfQ.u5xW6pqDiQf490ixw1eqSKhznm30sPVpHSWiUwO75j4
+
+
+
+###
+POST http://localhost:3001/users/changeProfile
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJRCI6NDAsImZpcnN0X25hbWUiOiJLdXRsbyIsImxhc3RfbmFtZSI6IlNla3dhbW90ZSIsImVtYWlsX2FkZHJlc3MiOiJrdXRsb3NAdGhpdG9ob2xkaW5ncy5jby5idyIsInN5c3RlbV9yb2xlIjoic3VwZXJ2aXNvciIsImRlcGFydG1lbnQiOiJUaGl0byBIb2xkaW5ncyIsInBhc3N3b3JkIjoibVhWTmtPQXlwVGg4cU12VUFObm8waGM3UTJ6VTQ4dUJWWkxUTGNPeThOcz0iLCJhY2Nlc3MiOiJmYWxzZSIsIm9mZmljZSI6InRydWUiLCJjcmVhdGlvbl9kYXRlIjoiMS03LzIwMjIiLCJoZWxwZGVza19yb2xlIjpudWxsLCJoZWxwZGVza19kZXBhcnRtZW50IjoiV0VCIiwiaWF0IjoxNjQ1MTg0MDAwfQ.u5xW6pqDiQf490ixw1eqSKhznm30sPVpHSWiUwO75j4
+
+{
+    "password": "mXVNkOAypTh8qMvUANno0hc7Q2zU48uBVZLTLcOy8Ns=", 
+    "imageUrl": "https://joeschmoe.io/api/v1/random", 
+    "dept": 9
+}

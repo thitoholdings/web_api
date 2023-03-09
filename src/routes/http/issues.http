@@ -1,0 +1,109 @@
+POST http://localhost:3001/issues/createIssue
+Content-Type: application/json
+
+{
+    "title":"MLM is not working",
+    "type": "BUG",
+    "status": "PROGRESS",
+    "priority":"MEDIUM",
+    "departmentId":"2",
+    "description":"Ive been try to run MLM but each time i do it crushes and and error pops up",
+    "assignee":"IT"
+}
+
+###
+GET http://localhost:3001/tasks/getContext
+
+###
+POST http://localhost:3001/issues/editIssue
+Content-Type: application/json
+
+{
+    "id":14,
+    "status":"done"
+}
+
+###
+POST http://localhost:3001/issues/changeIssueStatus
+Content-Type: application/json
+
+{
+    "id":2,
+    "status":"DONE"
+}
+
+###
+POST http://localhost:3001/issues/escalateIssue
+Content-Type: application/json
+
+{
+    "issueId":2,
+    "escalationNote": "This issue has been on for 3 weeks"
+}
+
+###
+GET http://localhost:3001/issues/getIssueAndComment/1 
+// 1 represents ID of Issue
+
+###
+GET http://localhost:3001/issues/getIssuesWithUsersAndComments
+
+###
+GET http://localhost:3001/roles/getCompanies
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJRCI6NDAsImZpcnN0X25hbWUiOiJLdXRsbyIsImxhc3RfbmFtZSI6IlNla3dhbW90ZSIsImVtYWlsX2FkZHJlc3MiOiJrdXRsb3NAdGhpdG9ob2xkaW5ncy5jby5idyIsInN5c3RlbV9yb2xlIjoiZGV2ZWxvcGVyIiwiZGVwYXJ0bWVudCI6IlRoaXRvIEhvbGRpbmdzIiwicGFzc3dvcmQiOiJtWFZOa09BeXBUaDhxTXZVQU5ubzBoYzdRMnpVNDh1QlZaTFRMY095OE5zPSIsImFjY2VzcyI6ImZhbHNlIiwib2ZmaWNlIjoidHJ1ZSIsImNyZWF0aW9uX2RhdGUiOiI3LTQvMjAyMiIsImhlbHBkZXNrX3JvbGUiOiJJVCIsImhlbHBkZXNrX2RlcGFydG1lbnQiOiJXRUIiLCJoZWxwZGVza19wcm9maWxlIjoiaHR0cHM6Ly9yZXMuY2xvdWRpbmFyeS5jb20vdGhpdG8taG9sZGluZ3MvaW1hZ2UvdXBsb2FkL3YxNjQ4MTMwMDEwL2dscXBhYmcybnBidmFjM3VyOThmLmpwZyIsImRlcGFydG1lbnRJZCI6OSwic3VwZXJ2aXNvciI6MSwic3ViX2RlcGFydG1lbnQiOiJXRUIiLCJkZXB0IjoiSVQiLCJpYXQiOjE2NTc1MzM0NzcsImV4cCI6MTY1ODEzODI3N30.9tpErlMV_WIIZb4m0Cm3nIKDq3NYRZWgj8K0A3k0e_k
+###
+GET http://localhost:3001/issues/getAllIssues
+Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJRCI6NDAsImZpcnN0X25hbWUiOiJLdXRsbyIsImxhc3RfbmFtZSI6IlNla3dhbW90ZSIsImVtYWlsX2FkZHJlc3MiOiJrdXRsb3NAdGhpdG9ob2xkaW5ncy5jby5idyIsInN5c3RlbV9yb2xlIjoiZGV2ZWxvcGVyIiwiZGVwYXJ0bWVudCI6IlRoaXRvIEhvbGRpbmdzIiwicGFzc3dvcmQiOiJtWFZOa09BeXBUaDhxTXZVQU5ubzBoYzdRMnpVNDh1QlZaTFRMY095OE5zPSIsImFjY2VzcyI6ImZhbHNlIiwib2ZmaWNlIjoidHJ1ZSIsImNyZWF0aW9uX2RhdGUiOiI3LTQvMjAyMiIsImhlbHBkZXNrX3JvbGUiOiJJVCIsImhlbHBkZXNrX2RlcGFydG1lbnQiOiJXRUIiLCJoZWxwZGVza19wcm9maWxlIjoiaHR0cHM6Ly9yZXMuY2xvdWRpbmFyeS5jb20vdGhpdG8taG9sZGluZ3MvaW1hZ2UvdXBsb2FkL3YxNjQ4MTMwMDEwL2dscXBhYmcybnBidmFjM3VyOThmLmpwZyIsImRlcGFydG1lbnRJZCI6OSwic3VwZXJ2aXNvciI6MSwic3ViX2RlcGFydG1lbnQiOiJXRUIiLCJkZXB0IjoiSVQiLCJpYXQiOjE2NTc1MzM0NzcsImV4cCI6MTY1ODEzODI3N30.9tpErlMV_WIIZb4m0Cm3nIKDq3NYRZWgj8K0A3k0e_k
+###
+GET http://localhost:3001/roles/getDepartment
+Authorization:Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJRCI6NDAsImZpcnN0X25hbWUiOiJLdXRsbyIsImxhc3RfbmFtZSI6IlNla3dhbW90ZSIsImVtYWlsX2FkZHJlc3MiOiJrdXRsb3NAdGhpdG9ob2xkaW5ncy5jby5idyIsInN5c3RlbV9yb2xlIjoiZGV2ZWxvcGVyIiwiZGVwYXJ0bWVudCI6IlRoaXRvIEhvbGRpbmdzIiwicGFzc3dvcmQiOiJtWFZOa09BeXBUaDhxTXZVQU5ubzBoYzdRMnpVNDh1QlZaTFRMY095OE5zPSIsImFjY2VzcyI6ImZhbHNlIiwib2ZmaWNlIjoidHJ1ZSIsImNyZWF0aW9uX2RhdGUiOiI3LTQvMjAyMiIsImhlbHBkZXNrX3JvbGUiOiJJVCIsImhlbHBkZXNrX2RlcGFydG1lbnQiOiJXRUIiLCJoZWxwZGVza19wcm9maWxlIjoiaHR0cHM6Ly9yZXMuY2xvdWRpbmFyeS5jb20vdGhpdG8taG9sZGluZ3MvaW1hZ2UvdXBsb2FkL3YxNjQ4MTMwMDEwL2dscXBhYmcybnBidmFjM3VyOThmLmpwZyIsImRlcGFydG1lbnRJZCI6OSwic3VwZXJ2aXNvciI6MSwic3ViX2RlcGFydG1lbnQiOiJXRUIiLCJkZXB0IjoiSVQiLCJpYXQiOjE2NTc1MzM0NzcsImV4cCI6MTY1ODEzODI3N30.9tpErlMV_WIIZb4m0Cm3nIKDq3NYRZWgj8K0A3k0e_k
+
+###
+POST https://localhost:44344/MainService.asmx/HelloWorld
+
+###
+POST https://localhost:44344/MainService.asmx/add
+Content-Type: application/x-www-form-urlencoded
+
+a=23&b=12
+
+###
+POST https://localhost:44344/MainService.asmx/calculateRollover
+Content-Type: application/x-www-form-urlencoded
+
+LoanTypeName=Normal&CustomerID=963212419&PackageName=Normal Advance&Password=THITOWEBSERVICE.COM
+
+###
+POST https://thitowebservice.azurewebsites.net/MainService.asmx/HelloWorld
+
+###
+POST https://thitowebservice.azurewebsites.net/MainService.asmx/add
+Content-Type: application/x-www-form-urlencoded
+
+a=23&b=45
+
+###
+POST https://localhost:44344/MainService.asmx/calculateRollover
+Content-Type: application/x-www-form-urlencoded
+
+LoanTypeName=Normal&CustomerID=963212419&PackageName=Normal Advance&Password=THITOWEBSERVICE.COM
+
+###
+GET https://localhost:44344/MainService.asmx/calculateRollover?LoanTypeName=Normal&CustomerID=963212419&PackageName=Normal%20Advance&Password=THITOWEBSERVICE.COM
+###
+POST https://localhost:44344/MainService.asmx/calculateAllRefunds
+Content-Type: application/x-www-form-urlencoded
+
+customerId=963212419
+
+###
+GET https://localhost:44344/MainService.asmx/calculateAllRefunds?customerId=963212419
+
+###
+GET http://13.245.239.200/MainService.asmx/calculateAllRefunds?customerId=963212419
+
+###
+GET http://13.245.239.200/MainService.asmx/calculateAllRefunds2?customerId=963212419
+
+###
+GET http://13.245.239.200/MainService.asmx/calculateAllRollovers?customerId=963212419&Password=THITOWEBSERVICE.COM

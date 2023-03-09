@@ -1,0 +1,24 @@
+POST http://localhost:3001/comments/addComment
+Content-Type: application/json
+
+{
+   "body":"How far with this problem",
+   "issueId":2
+}
+
+###
+POST http://localhost:3001/comments/editComment
+Content-Type: application/json
+
+{
+   "body":"Are you done with this issue",
+    "id":6
+}
+
+###
+GET http://localhost:3001/comments/getAllComments
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJRCI6NDAsImZpcnN0X25hbWUiOiJLdXRsbyIsImxhc3RfbmFtZSI6IlNla3dhbW90ZSIsImVtYWlsX2FkZHJlc3MiOiJrdXRsb3NAdGhpdG9ob2xkaW5ncy5jby5idyIsInN5c3RlbV9yb2xlIjoic3VwZXJ2aXNvciIsImRlcGFydG1lbnQiOiJUaGl0byBIb2xkaW5ncyIsInBhc3N3b3JkIjoibVhWTmtPQXlwVGg4cU12VUFObm8waGM3UTJ6VTQ4dUJWWkxUTGNPeThOcz0iLCJhY2Nlc3MiOiJmYWxzZSIsIm9mZmljZSI6InRydWUiLCJjcmVhdGlvbl9kYXRlIjoiMS03LzIwMjIiLCJoZWxwZGVza19yb2xlIjpudWxsLCJoZWxwZGVza19kZXBhcnRtZW50IjoiV0VCIiwiaWF0IjoxNjQ1MTg0MDAwfQ.u5xW6pqDiQf490ixw1eqSKhznm30sPVpHSWiUwO75j4
+
+###
+GET http://localhost:3001/comments/getCommentsForIssue/3
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJRCI6NDAsImZpcnN0X25hbWUiOiJLdXRsbyIsImxhc3RfbmFtZSI6IlNla3dhbW90ZSIsImVtYWlsX2FkZHJlc3MiOiJrdXRsb3NAdGhpdG9ob2xkaW5ncy5jby5idyIsInN5c3RlbV9yb2xlIjoic3VwZXJ2aXNvciIsImRlcGFydG1lbnQiOiJUaGl0byBIb2xkaW5ncyIsInBhc3N3b3JkIjoibVhWTmtPQXlwVGg4cU12VUFObm8waGM3UTJ6VTQ4dUJWWkxUTGNPeThOcz0iLCJhY2Nlc3MiOiJmYWxzZSIsIm9mZmljZSI6InRydWUiLCJjcmVhdGlvbl9kYXRlIjoiMS03LzIwMjIiLCJoZWxwZGVza19yb2xlIjpudWxsLCJoZWxwZGVza19kZXBhcnRtZW50IjoiV0VCIiwiaWF0IjoxNjQ1MTg0MDAwfQ.u5xW6pqDiQf490ixw1eqSKhznm30sPVpHSWiUwO75j4

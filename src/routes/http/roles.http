@@ -1,0 +1,4 @@
+GET http://localhost:3001/roles/getDepartment
+
+###
+GET http://localhost:3001/roles/getSystems
