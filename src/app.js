@@ -62,7 +62,7 @@ let activeUsers = [];
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const buildPath = path.join(__dirname, "../../frontend/build");
+const buildPath = path.join(__dirname, "../web/dist");
 app.use(
   expressStaticGzip(buildPath, {
     enableBrotli: false, // only if you have brotli files too
@@ -71,15 +71,14 @@ app.use(
 app.use(express.static(buildPath));
 
 app.get("/*", function (req, res) {
-    console.log(req)
-    res.sendFile(
-    path.join(__dirname, "../../frontend/build/index.html"),
-    function (err) {
-      if (err) {
-        res.status(500).send(err);
-      }
+  res.sendFile(path.join(__dirname, "../web/dist/index.html"), function (err) {
+    if (err) {
+      res.status(500).send(err);
     }
-  );
+  });
+});
+app.get("/", (req, res) => {
+  res.send("API is running...");
 });
 
 let sockets = [];

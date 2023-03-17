@@ -12,7 +12,7 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:3001/tasks/getContext
+GET https://office.thitoholdings.co.bw/web_api/tasks/getContext/
 
 ###
 POST http://localhost:3001/issues/editIssue
