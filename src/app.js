@@ -46,7 +46,7 @@ app.use("/users", routers.usersRouter);
 app.use("/roles", routers.rolesRouter);
 app.use("/utils", routers.utilsRouter);
 app.use("/reports", routers.reportRouter);
-app.use("/tasks", routers.tasksRouter);
+app.use("/web_api/tasks", routers.tasksRouter);
 
 app.post("/hello", authenticateToken, getAllIssues);
 
@@ -71,7 +71,8 @@ app.use(
 app.use(express.static(buildPath));
 
 app.get("/*", function (req, res) {
-  res.sendFile(
+    console.log(req)
+    res.sendFile(
     path.join(__dirname, "../../frontend/build/index.html"),
     function (err) {
       if (err) {
