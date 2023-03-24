@@ -47,7 +47,7 @@ app.use("/users", routers.usersRouter);
 app.use("/roles", routers.rolesRouter);
 app.use("/utils", routers.utilsRouter);
 app.use("/reports", routers.reportRouter);
-app.use("/tasks", routers.tasksRouter);
+app.use("/web_api/tasks", routers.tasksRouter);
 
 app.post("/hello", authenticateToken, getAllIssues);
 
