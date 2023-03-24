@@ -17,6 +17,7 @@ import {
 //import bodyParser from "body-parser"
 import expressStaticGzip from "express-static-gzip";
 import compression from "compression";
+import serverless from "serverless-http";
 
 dotenv.config({ path: "../.env" });
 
