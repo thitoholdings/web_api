@@ -5,7 +5,7 @@
   "main": "api.js",
   "scripts": {
     "start": "cd src && node app.js",
-    "test": "jest",
+    "test": "jest"
   },
   "author": "Kutlo Sekwamote , Hope Ntshonono",
   "license": "MIT",

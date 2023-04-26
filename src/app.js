@@ -9,15 +9,8 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { getAllIssues } from "./controllers/issues/index.js";
 import * as routers from "./routes/index.js";
-import {
-  activateUser,
-  deactivateUser,
-  getActiveUsers,
-} from "./controllers/socket/activeUsers.js";
-//import bodyParser from "body-parser"
 import expressStaticGzip from "express-static-gzip";
 import compression from "compression";
-import serverless from "serverless-http";
 
 dotenv.config({ path: "../.env" });
 
