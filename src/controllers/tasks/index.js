@@ -18,7 +18,8 @@ export const createTask = catchErrors(async (req, res) => {
 
   res.send(create);
 });
-export const createContext = catchErrors(async (req, res) => {
+
+function currentDate() {
   const currentDate = new Date();
 
   // Extract the individual components of the date and time
@@ -36,10 +37,14 @@ export const createContext = catchErrors(async (req, res) => {
     minutes < 10 ? "0" + minutes : minutes
   }:${seconds < 10 ? "0" + seconds : seconds}`;
 
+  return mysqlDatetime;
+}
+
+export const createContext = catchErrors(async (req, res) => {
   const create = await handleInsert(
     {
       ...req.body,
-      createdAt: mysqlDatetime,
+      createdAt: currentDate(),
     },
     "task_context"
   );
@@ -60,3 +65,32 @@ export const getTasks = catchErrors(async (req, res) => {
 
   res.send(select);
 });
+
+function updateStatus(data) {
+  const currentDate = new Date();
+  const oneMonthAgo = new Date().setMonth(currentDate.getMonth() - 1);
+
+  return data.map((item) => {
+    const itemDate = new Date(item.day);
+    if (itemDate < oneMonthAgo && item.status != "backlog") {
+      return { ...item, status: "backlog" };
+    } else {
+      return item;
+    }
+  });
+}
+
+export async function updateContext() {
+  const lastContext = (
+    await handleQuery(
+      "SELECT * FROM helpdesk.task_context order by id desc limit 1"
+    )
+  )[0];
+
+  const newContext = updateStatus(lastContext);
+
+  await handleInsert(
+    { context: newContext, createdAt: currentDate() },
+    "task_context"
+  );
+}
