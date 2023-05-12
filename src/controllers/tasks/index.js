@@ -35,7 +35,7 @@ export const createContext = catchErrors(async (req, res) => {
   } ${hours < 10 ? "0" + hours : hours}:${
     minutes < 10 ? "0" + minutes : minutes
   }:${seconds < 10 ? "0" + seconds : seconds}`;
-
+  console.log("Insert into context")
   const create = await handleInsert(
     {
       ...req.body,
