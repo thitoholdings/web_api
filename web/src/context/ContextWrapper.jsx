@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useReducer, useMemo } from "react";
+import React, {
+  useState,
+  useEffect,
+  useReducer,
+  useMemo,
+  useLayoutEffect,
+} from "react";
 import GlobalContext from "./GlobalContext";
 import dayjs from "dayjs";
 import { statusClasses } from "../components/variables/variables";
@@ -6,6 +12,8 @@ import axios from "axios";
 
 function savedEventsReducer(state, { type, payload }) {
   switch (type) {
+    case "new":
+      return [...payload];
     case "push":
       return [...state, payload];
     case "update":
@@ -17,7 +25,7 @@ function savedEventsReducer(state, { type, payload }) {
   }
 }
 function initEvents() {
-  const storageEvents = null; //localStorage.getItem("savedEvents");
+  const storageEvents = localStorage.getItem("savedEvents");
   const parsedEvents = storageEvents ? JSON.parse(storageEvents) : [];
   return parsedEvents;
 }
@@ -30,6 +38,7 @@ export default function ContextWrapper(props) {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [labels, setLabels] = useState([]);
   const [status, setStatus] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [savedEvents, dispatchCalEvent] = useReducer(
     savedEventsReducer,
     [],
@@ -38,34 +47,50 @@ export default function ContextWrapper(props) {
 
   const [effect, setEffect] = useState(true);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    console.log("effect get Context");
+    setLoading(false);
     axios
       .get("https://office.thitoholdings.co.bw/web_api/tasks/getContext")
       .then((res) => {
-        //console.log(res.data.context);
         const events = JSON.parse(res.data[0].context);
-        const savedEvents = events.map((ev, i) => {
+        dispatchCalEvent({
+          type: "new",
+          payload: events,
+        });
+        /**
+         * const savedEvents = events.map((ev, i) => {
           dispatchCalEvent({
             type: "push",
             payload: { ...ev },
           });
         });
+         *
+         * */
+
         // localStorage.removeItem("savedEvents");
-        //localStorage.setItem("savedEvents", savedEvents);
+        localStorage.setItem("savedEvents", events);
       })
+      .then(() => setLoading(true))
       .catch(console.log);
-  }, [effect]);
+  }, []);
 
   const filteredEvents = useMemo(() => {
-    return savedEvents.filter((evt) =>
-      labels
-        .filter((lbl) => lbl.checked)
-        .map((lbl) => lbl.label)
-        .includes(evt.label)
+    return savedEvents.filter(
+      (evt) =>
+        labels
+          .filter((lbl) => lbl.checked)
+          .map((lbl) => lbl.label)
+          .includes(evt.label) &&
+        status
+          .filter((stat) => stat.checked)
+          .map((stat) => stat.status)
+          .includes(evt.status)
     );
-  }, [savedEvents, labels]);
+  }, [savedEvents, labels, status]);
 
   useEffect(() => {
+    console.log("local storage");
     localStorage.setItem("savedEvents", JSON.stringify(savedEvents));
   }, [savedEvents]);
 
@@ -78,6 +103,22 @@ export default function ContextWrapper(props) {
           checked: currentLabel ? currentLabel.checked : true,
         };
       });
+    });
+  }, [savedEvents]);
+
+  useEffect(() => {
+    setStatus((prevStatus) => {
+      return [...new Set(savedEvents.map((evt) => evt.status))].map(
+        (status) => {
+          const currentStatus = prevStatus.find(
+            (stat) => stat.status === status
+          );
+          return {
+            status,
+            checked: currentStatus ? currentStatus.checked : true,
+          };
+        }
+      );
     });
   }, [savedEvents]);
 
@@ -96,11 +137,9 @@ export default function ContextWrapper(props) {
   function updateLabel(label) {
     setLabels(labels.map((lbl) => (lbl.label === label.label ? label : lbl)));
   }
-  function updateStatusLabel(status) {
-    setStatus(status.map((lbl) => (lbl.label === status.label ? status : lbl)));
-
+  function updateStatusLabel(statuss) {
     setStatus(
-      statusClasses.map((lbl) => (lbl.status === status.label ? status : lbl))
+      status.map((stat) => (stat.status === statuss.status ? statuss : stat))
     );
   }
 
@@ -126,6 +165,8 @@ export default function ContextWrapper(props) {
         updateLabel,
         updateStatusLabel,
         filteredEvents,
+        loading,
+        setLoading,
       }}
     >
       {props.children}

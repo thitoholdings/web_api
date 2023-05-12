@@ -6,10 +6,12 @@ import Sidebar from "./components/Sidebar";
 import Month from "./components/Month";
 import GlobalContext from "./context/GlobalContext";
 import EventModal from "./components/EventModal";
-import axios from "axios";
+import Loader from "./components/utils/Loader";
 function App() {
   const [currenMonth, setCurrentMonth] = useState(getMonth());
-  const { monthIndex, showEventModal } = useContext(GlobalContext);
+  const { monthIndex, showEventModal, filteredEvents, loading } =
+    useContext(GlobalContext);
+  const [sidebar, setSidebar] = useState(true);
   const context = useContext(GlobalContext);
 
   useEffect(() => {
@@ -19,13 +21,29 @@ function App() {
   return (
     <React.Fragment>
       {showEventModal && <EventModal />}
+      <div>
+        {loading ? (
+          <div className="h-screen flex flex-col">
+            <label
+              style={{ margin: 2, display: "flex", alignSelf: "flex-end" }}
+            >
+              <input
+                type="checkbox"
+                checked={sidebar}
+                onChange={() => setSidebar(!sidebar)}
+              />
+              Hide Sidebar
+            </label>
 
-      <div className="h-screen flex flex-col">
-        <CalendarHeader />
-        <div className="flex flex-1">
-          <Sidebar />
-          <Month month={currenMonth} />
-        </div>
+            <CalendarHeader />
+            <div className="flex flex-1">
+              {sidebar && <Sidebar />}
+              <Month month={currenMonth} />
+            </div>
+          </div>
+        ) : (
+          <Loader />
+        )}
       </div>
     </React.Fragment>
   );

@@ -11,6 +11,8 @@ import { getAllIssues } from "./controllers/issues/index.js";
 import * as routers from "./routes/index.js";
 import expressStaticGzip from "express-static-gzip";
 import compression from "compression";
+import cron from "node-cron";
+import { updateContext } from "./controllers/tasks/index.js";
 
 dotenv.config({ path: "../.env" });
 
@@ -52,6 +54,12 @@ app.post("/login", (req, res) => {
   res.send({ accessToken, user });
 });
 
+app.get("/updateContext", async (req, res) => {
+  const updateContex = await updateContext();
+
+  res.send(updateContex);
+});
+
 let activeUsers = [];
 
 const __filename = fileURLToPath(import.meta.url);
@@ -75,15 +83,11 @@ app.get("/", (req, res) => {
   res.send("API is running...");
 });
 
-let sockets = [];
-function addToActiveUsers(user_details) {
-  if (!activeUsers.map((user) => user.ID).includes(user_details.ID)) {
-    activeUsers = [...activeUsers, user_details];
-  }
-}
-function removeActiveUser(socketId) {
-  activeUsers = activeUsers.filter((user) => user.socketId == socketId);
-}
+cron.schedule("0 0 * * *", () => {
+  updateContext()
+    .then(() => console.log("context has been updated"))
+    .catch((err) => console.log("an error has occured " + err));
+});
 
 const PORT = process.env.PORT || 3003;
 
