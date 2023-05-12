@@ -54,6 +54,12 @@ app.post("/login", (req, res) => {
   res.send({ accessToken, user });
 });
 
+app.get("/updateContext", async (req, res) => {
+  const updateContex = await updateContext();
+
+  res.send(updateContex);
+});
+
 let activeUsers = [];
 
 const __filename = fileURLToPath(import.meta.url);

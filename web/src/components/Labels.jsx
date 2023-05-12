@@ -1,9 +1,17 @@
 import React, { useContext, useState } from "react";
 import GlobalContext from "../context/GlobalContext";
-import getCompanyTitle from "./utils/getCompanyTitle";
+import getCompanyTitle, { getStatusColor } from "./utils/getCompanyTitle";
+
+function camelize(str) {
+  return str
+    .replace(/(?:^\w|[A-Z]|\b\w)/g, function (word, index) {
+      return index === 0 ? word.toLowerCase() : word.toUpperCase();
+    })
+    .replace(/\s+/g, "");
+}
 
 export default function Labels() {
-  const { labels, updateLabel, status, updateStatus } =
+  const { labels, updateLabel, status, updateStatusLabel } =
     useContext(GlobalContext);
 
   const statusClasses = [
@@ -32,16 +40,18 @@ export default function Labels() {
     return (
       <div>
         <p className="text-gray-500 font-bold mt-10">Task Status</p>
-        {statusClasses.map(({ label: lbl, checked }, idx) => (
+        {status.map(({ status, checked }, idx) => (
           <label key={idx} className="items-center mt-3 block">
             <input
               type="checkbox"
               checked={checked}
-              onChange={() => updateLabel({ label: lbl, checked: !checked })}
-              className={`form-checkbox h-5 w-5 text-${lbl}-400 rounded focus:ring-0 cursor-pointer`}
+              onChange={() => updateStatusLabel({ status, checked: !checked })}
+              className={`form-checkbox h-5 w-5 text-${getStatusColor(
+                status
+              )}-400 rounded focus:ring-0 cursor-pointer`}
             />
             <span className="ml-2 text-gray-700 capitalize">
-              {switchStatus(lbl)}
+              {camelize(status)}
             </span>
           </label>
         ))}
@@ -72,6 +82,7 @@ export default function Labels() {
 
   return (
     <React.Fragment>
+      <button onClick={() => console.log(status)}>Hello</button>
       <TaskStatusLabel />
       <CompanyLabel />
     </React.Fragment>

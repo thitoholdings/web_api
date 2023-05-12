@@ -14,16 +14,13 @@ const GlobalContext = React.createContext({
   selectedEvent: null,
   setSelectedEvent: () => {},
   setLabels: () => {},
+  loading: false,
+  setLoading: () => {},
   labels: [],
   updateLabel: () => {},
   updateStatusLabel: () => {},
   setStatus: () => {},
-  status: [
-    { label: "gray", checked: true },
-    { label: "red", checked: true },
-    { label: "yellow", checked: true },
-    { label: "green", checked: true },
-  ],
+  status: [],
   filteredEvents: [],
 });
 

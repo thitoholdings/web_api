@@ -2,6 +2,7 @@ import dayjs from "dayjs";
 import React, { useContext, useState, useEffect } from "react";
 import GlobalContext from "../context/GlobalContext";
 import { getCompanyTitleAB, getStatusColor } from "./utils/getCompanyTitle";
+import Tooltip from "@mui/material/Tooltip";
 
 export default function Day({ day, rowIdx }) {
   const [dayEvents, setDayEvents] = useState([]);
@@ -49,17 +50,26 @@ export default function Day({ day, rowIdx }) {
               style={{ color: evt.label }}
             >
               {evt.assignee}
-            </small>
-            <div
-              key={idx}
-              onClick={() => setSelectedEvent(evt)}
-              className={`bg-${
-                getStatusColor(evt.status) + "-600"
-              } p-1 mr-3 text-white text-2xl rounded mb-1 truncate`}
-            >
-              <strong>{getCompanyTitleAB(evt.label)} </strong>
-              {evt.title}
-            </div>
+            </small>{" "}
+            {/* <small>{evt.id}</small> <small>{evt.label}</small> */}
+            <Tooltip title={evt.title} placement="top">
+              <div
+                key={idx}
+                onClick={() => setSelectedEvent(evt)}
+                style={{
+                  backgroundColor:
+                    getStatusColor(evt.status) == "yellow"
+                      ? "orange"
+                      : getStatusColor(evt.status),
+                }}
+                className={`bg-${
+                  getStatusColor(evt.status) + "-600"
+                } p-1 mr-3 text-white text-1xl rounded mb-1 truncate`}
+              >
+                <strong>{getCompanyTitleAB(evt.label)} </strong>
+                {evt.title}
+              </div>
+            </Tooltip>
           </div>
         ))}
       </div>

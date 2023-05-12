@@ -31,6 +31,7 @@ export default function EventModal() {
       : labelsClasses[0]
   );
   const [selectedStatus, setSelectedStatus] = useState("open");
+  const [detailsChanged, setDetailsChanged] = useState(false);
 
   async function markAsDone() {
     const calendarEvent = {
@@ -44,7 +45,6 @@ export default function EventModal() {
       id: selectedEvent ? selectedEvent.id : Date.now(),
     };
     if (selectedEvent) {
-      console.log("update");
       dispatchCalEvent({ type: "update", payload: calendarEvent });
     } else {
       console.log("push");
@@ -85,7 +85,58 @@ export default function EventModal() {
       id: selectedEvent ? selectedEvent.id : Date.now(),
     };
     if (selectedEvent) {
-      dispatchCalEvent({ type: "update", payload: calendarEvent });
+      console.log("first if ");
+      if (detailsChanged) {
+        const task = context.savedEvents.find(
+          (tsk) => tsk.id == calendarEvent.id
+        );
+
+        //console.log(task);
+        //console.log("second if " + task.title);
+
+        context.savedEvents.forEach((eve) => {
+          if (eve.title == task.title && eve.day >= task.day) {
+            dispatchCalEvent({
+              type: "update",
+              payload: { ...eve, assignee, title, description },
+            });
+          }
+        });
+
+        const savedEv = context.savedEvents.map((eve) => {
+          if (eve.title == task.title && eve.day >= task.day) {
+            return { ...eve, assignee, title, description };
+          }
+        });
+
+        const update = await axios.post(
+          "https://office.thitoholdings.co.bw/web_api/tasks/addContext",
+          {
+            context: JSON.stringify(savedEv),
+          }
+        );
+        setShowEventModal(false);
+        setDetailsChanged(false);
+      } else {
+        console.log("Update 2 " + calendarEvent.status);
+        const savedEv = context.savedEvents.map((eve) => {
+          if (eve.id == calendarEvent.id) {
+            console.log({ ...eve, status: calendarEvent.status });
+            return { ...eve, status: calendarEvent.status };
+          }
+          return eve;
+        });
+
+        const update = await axios.post(
+          "https://office.thitoholdings.co.bw/web_api/tasks/addContext",
+          {
+            context: JSON.stringify(savedEv),
+          }
+        );
+        dispatchCalEvent({ type: "update", payload: calendarEvent });
+        setShowEventModal(false);
+        return;
+      }
     } else {
       const next12Months = getNext12Months(daySelected.valueOf()).map(
         (date) => ({
@@ -164,7 +215,10 @@ export default function EventModal() {
               value={title}
               required
               className="pt-3 border-0 text-gray-600 text-xl font-semibold pb-2 w-full border-b-2 border-gray-200 focus:outline-none focus:ring-0 focus:border-blue-500"
-              onChange={(e) => setTitle(e.target.value)}
+              onChange={(e) => {
+                setTitle(e.target.value);
+                setDetailsChanged(true);
+              }}
             />
             <span className="material-icons-outlined text-gray-400">
               schedule
@@ -181,7 +235,10 @@ export default function EventModal() {
               value={description}
               required
               className="pt-3 border-0 text-gray-600 pb-2 w-full border-b-2 border-gray-200 focus:outline-none focus:ring-0 focus:border-blue-500"
-              onChange={(e) => setDescription(e.target.value)}
+              onChange={(e) => {
+                setDescription(e.target.value);
+                setDetailsChanged(true);
+              }}
             />
 
             <span className="material-icons-outlined text-gray-400">
@@ -194,7 +251,10 @@ export default function EventModal() {
               value={assignee}
               required
               className="pt-3 border-0 text-gray-600 pb-2 w-full border-b-2 border-gray-200 focus:outline-none focus:ring-0 focus:border-blue-500"
-              onChange={(e) => setAssignee(e.target.value)}
+              onChange={(e) => {
+                setAssignee(e.target.value);
+                setDetailsChanged(true);
+              }}
             />
 
             <span className="material-icons-outlined text-gray-400">
@@ -210,8 +270,12 @@ export default function EventModal() {
                   </small>
                   <span
                     key={i}
+                    style={{
+                      borderColor: "#000",
+                      borderWidth: lblClass == selectedLabel ? 3 : 0,
+                    }}
                     onClick={() => setSelectedLabel(lblClass)}
-                    className={`bg-${lblClass}-500 w-10 h-10 rounded-full flex items-center justify-center cursor-pointer`}
+                    className={`bg-${lblClass}-500 w-12 h-12 rounded-full flex items-center justify-center cursor-pointer`}
                   >
                     {selectedLabel === lblClass && (
                       <span className="material-icons-outlined text-white text-sm">
@@ -232,8 +296,14 @@ export default function EventModal() {
               {statusClasses.map((lblClass, i) => (
                 <span
                   key={i}
+                  style={{
+                    backgroundColor: lblClass == "yellow" ? "orange" : lblClass,
+                    borderColor: "#000",
+                    borderWidth:
+                      getStatusTitle(lblClass) == selectedStatus ? 3 : 0,
+                  }}
                   onClick={() => setSelectedStatus(getStatusTitle(lblClass))}
-                  className={`bg-${lblClass}-500 w-12 h-12 rounded-md flex items-center justify-center cursor-pointer`}
+                  className={`bg-${lblClass}-500 w-14 h-12 rounded-md flex items-center justify-center cursor-pointer`}
                 >
                   {selectedLabel === getStatusColor(lblClass) && (
                     <span className="material-icons-outlined text-white text-sm">

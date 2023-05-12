@@ -66,30 +66,49 @@ export const getTasks = catchErrors(async (req, res) => {
   res.send(select);
 });
 
+function isDateEarlier(date1) {
+  const today = new Date();
+
+  // Remove time component from today's date
+  today.setHours(0, 0, 0, 0);
+
+  // Compare date1 with today
+  return date1 < today;
+}
+
 function updateStatus(data) {
   const currentDate = new Date();
-  const oneMonthAgo = new Date().setMonth(currentDate.getMonth() - 1);
+  const oneMonthAgo = new Date().setMonth(currentDate.getDate() - 1);
 
-  return data.map((item) => {
-    const itemDate = new Date(item.day);
-    if (itemDate < oneMonthAgo && item.status != "backlog") {
-      return { ...item, status: "backlog" };
-    } else {
-      return item;
-    }
-  });
+  return JSON.stringify(
+    data.map((item) => {
+      const itemDate = new Date(item.day);
+      if (
+        isDateEarlier(itemDate) &&
+        item.status != "backlog" &&
+        item.status != "done"
+      ) {
+        return { ...item, status: "backlog" };
+      } else {
+        return item;
+      }
+    })
+  );
 }
 
 export async function updateContext() {
+  console.log("update context function");
   const lastContext = (
     await handleQuery(
       "SELECT * FROM helpdesk.task_context order by id desc limit 1"
     )
   )[0];
 
-  const newContext = updateStatus(lastContext);
+  //console.log(lastContext);
+  const newContext = updateStatus(JSON.parse(lastContext.context));
+  //console.log(newContext);
 
-  await handleInsert(
+  return await handleInsert(
     { context: newContext, createdAt: currentDate() },
     "task_context"
   );
