@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import React, { useContext } from "react";
 import logo from "../assets/logo.png";
 import GlobalContext from "../context/GlobalContext";
-export default function CalendarHeader() {
+export default function CalendarHeader({ sidebar, setSidebar }) {
   const { monthIndex, setMonthIndex } = useContext(GlobalContext);
   function handlePrevMonth() {
     setMonthIndex(monthIndex - 1);
@@ -39,6 +39,20 @@ export default function CalendarHeader() {
       <h2 className="ml-4 text-xl text-gray-500 font-bold">
         {dayjs(new Date(dayjs().year(), monthIndex)).format("MMMM YYYY")}
       </h2>
+      <label
+        style={{
+          display: "flex",
+          alignSelf: "flex-end",
+          marginLeft: 15,
+        }}
+      >
+        <input
+          type="checkbox"
+          checked={sidebar}
+          onChange={() => setSidebar(!sidebar)}
+        />
+        {sidebar ? "Hide" : "Show"} Sidebar
+      </label>
     </header>
   );
 }

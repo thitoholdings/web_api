@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import "./App.css";
 import { getMonth } from "./util";
 import CalendarHeader from "./components/CalendarHeader";
@@ -7,12 +7,12 @@ import Month from "./components/Month";
 import GlobalContext from "./context/GlobalContext";
 import EventModal from "./components/EventModal";
 import Loader from "./components/utils/Loader";
+
 function App() {
   const [currenMonth, setCurrentMonth] = useState(getMonth());
   const { monthIndex, showEventModal, filteredEvents, loading } =
     useContext(GlobalContext);
   const [sidebar, setSidebar] = useState(true);
-  const context = useContext(GlobalContext);
 
   useEffect(() => {
     setCurrentMonth(getMonth(monthIndex));
@@ -24,18 +24,7 @@ function App() {
       <div>
         {loading ? (
           <div className="h-screen flex flex-col">
-            <label
-              style={{ margin: 2, display: "flex", alignSelf: "flex-end" }}
-            >
-              <input
-                type="checkbox"
-                checked={sidebar}
-                onChange={() => setSidebar(!sidebar)}
-              />
-              Hide Sidebar
-            </label>
-
-            <CalendarHeader />
+            <CalendarHeader sidebar={sidebar} setSidebar={setSidebar} />
             <div className="flex flex-1">
               {sidebar && <Sidebar />}
               <Month month={currenMonth} />
