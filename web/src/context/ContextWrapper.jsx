@@ -9,6 +9,7 @@ import GlobalContext from "./GlobalContext";
 import dayjs from "dayjs";
 import { statusClasses } from "../components/variables/variables";
 import axios from "axios";
+import _ from "lodash"
 
 function savedEventsReducer(state, { type, payload }) {
   switch (type) {
@@ -56,20 +57,9 @@ export default function ContextWrapper(props) {
         const events = JSON.parse(res.data[0].context);
         dispatchCalEvent({
           type: "new",
-          payload: events,
+          payload: _.uniqBy(events ,task => task.id ) ,
         });
-        /**
-         * const savedEvents = events.map((ev, i) => {
-          dispatchCalEvent({
-            type: "push",
-            payload: { ...ev },
-          });
-        });
-         *
-         * */
-
-        // localStorage.removeItem("savedEvents");
-        localStorage.setItem("savedEvents", events);
+        localStorage.setItem("savedEvents", _.uniqBy(events ,task => task.id ));
       })
       .then(() => setLoading(true))
       .catch(console.log);
