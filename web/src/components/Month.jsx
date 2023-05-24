@@ -2,25 +2,25 @@ import React, { useState } from "react";
 import Day from "./Day";
 import { motion, AnimatePresence } from "framer-motion";
 import dayjs from "dayjs";
+import { TextareaAutosize } from "@mui/material";
+import { useContext } from "react";
+import GlobalContext from "../context/GlobalContext";
 
 export default function Month({ month }) {
-  const [isScrolling, setIsScrolling] = useState(false);
+  const { setScrolling, isScrolling, duration, setDuration } =
+    useContext(GlobalContext);
 
   const containerVariants = {
     initial: { y: 0 },
     scroll: {
-      y: -1000, // Adjust this value based on the height of your content
+      y: -5000, // Adjust this value based on the height of your content
       transition: {
         repeat: Infinity,
         repeatType: "reverse",
-        duration: 10, // Adjust this value to control the speed
+        duration, // Adjust this value to control the speed
         ease: "linear",
       },
     },
-  };
-
-  const toggleScrolling = () => {
-    setIsScrolling(!isScrolling);
   };
 
   function filterWeekdays(datesArray) {
@@ -65,9 +65,10 @@ export default function Month({ month }) {
             animate="scroll"
             exit="initial"
             style={{
-              height: "100vh",
-              overflow: "hidden",
+              height: "5000px",
+              overflow: "visible",
               position: "relative",
+              zIndex: 0,
             }}
           >
             <div style={{ borderWidth: 5, borderColor: "black" }}>

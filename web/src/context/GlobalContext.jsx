@@ -22,6 +22,10 @@ const GlobalContext = React.createContext({
   setStatus: () => {},
   status: [],
   filteredEvents: [],
+  isScrolling: false,
+  setScrolling: () => {},
+  duration: 50,
+  setDuration: () => {},
 });
 
 export default GlobalContext;
