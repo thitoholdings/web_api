@@ -24,7 +24,10 @@ function App() {
       <div>
         {loading ? (
           <div className="h-screen flex flex-col">
-            <CalendarHeader sidebar={sidebar} setSidebar={setSidebar} />
+            <div style={{ zIndex: 1, backgroundColor: "#fff" }}>
+              <CalendarHeader sidebar={sidebar} setSidebar={setSidebar} />
+            </div>
+
             <div className="flex flex-1">
               {sidebar && <Sidebar />}
               <Month month={currenMonth} />

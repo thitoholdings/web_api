@@ -9,7 +9,7 @@ import GlobalContext from "./GlobalContext";
 import dayjs from "dayjs";
 import { statusClasses } from "../components/variables/variables";
 import axios from "axios";
-import _ from "lodash"
+import _ from "lodash";
 
 function savedEventsReducer(state, { type, payload }) {
   switch (type) {
@@ -39,7 +39,9 @@ export default function ContextWrapper(props) {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [labels, setLabels] = useState([]);
   const [status, setStatus] = useState([]);
+  const [isScrolling, setScrolling] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [duration, setDuration] = useState(50);
   const [savedEvents, dispatchCalEvent] = useReducer(
     savedEventsReducer,
     [],
@@ -57,9 +59,12 @@ export default function ContextWrapper(props) {
         const events = JSON.parse(res.data[0].context);
         dispatchCalEvent({
           type: "new",
-          payload: _.uniqBy(events ,task => task.id ) ,
+          payload: _.uniqBy(events, (task) => task.id),
         });
-        localStorage.setItem("savedEvents", _.uniqBy(events ,task => task.id ));
+        localStorage.setItem(
+          "savedEvents",
+          _.uniqBy(events, (task) => task.id)
+        );
       })
       .then(() => setLoading(true))
       .catch(console.log);
@@ -157,6 +162,10 @@ export default function ContextWrapper(props) {
         filteredEvents,
         loading,
         setLoading,
+        isScrolling,
+        setScrolling,
+        setDuration,
+        duration,
       }}
     >
       {props.children}
