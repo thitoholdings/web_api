@@ -26,6 +26,10 @@ const GlobalContext = React.createContext({
   setScrolling: () => {},
   duration: 50,
   setDuration: () => {},
+  token: null,
+  setToken: () => {},
+  user: null,
+  setUser: () => {},
 });
 
 export default GlobalContext;

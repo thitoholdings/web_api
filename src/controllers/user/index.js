@@ -12,22 +12,22 @@ import { sendResetPasswordEmail } from "./utils.js";
 import aws_upload from "../../utils/aws_upload.js";
 
 export const createUser = catchErrors(async (req, res) => {
-  const {first_name , last_name , email_address ,departmentId} = req.body
- // console.log('Email: '+email_address)
-  const exists =await handleQuery(`select * from boprita_credit.StaffAccount_0 where email_address = '${email_address}' `)
-  const query =`INSERT INTO boprita_credit.StaffAccount_0 (first_name, last_name, email_address, system_role, department, password, access, office, creation_date, helpdesk_profile, departmentId) 
+  const { first_name, last_name, email_address, departmentId } = req.body;
+  // console.log('Email: '+email_address)
+  const exists = await handleQuery(
+    `select * from boprita_credit.StaffAccount_0 where email_address = '${email_address}' `
+  );
+  const query = `INSERT INTO boprita_credit.StaffAccount_0 (first_name, last_name, email_address, system_role, department, password, access, office, creation_date, helpdesk_profile, departmentId) 
   VALUES ('${first_name}', '${last_name}', '${email_address}', 'service_desk', 'Thito Holdings', 'l7Puw5KCVCsS23pLpYM0ZQMscmETOPs1DFq5tWfdRMw=', 'false', 'true', '8-4/2022', 'https://joeschmoe.io/api/v1/random', '${departmentId}');
-  `
+  `;
 
-  if(exists.length>0){
-    console.log(exists.length + " User already exists")
-    res.status(500).send({error:'This user aready exists'})
-  }
-  else {
+  if (exists.length > 0) {
+    console.log(exists.length + " User already exists");
+    res.status(500).send({ error: "This user aready exists" });
+  } else {
     const user = await handleQuery(query);
     res.send(user);
   }
-
 });
 export const sendOTP = catchErrors(async (req, res) => {
   const val = Math.floor(1000 + Math.random() * 9000);
@@ -78,8 +78,11 @@ export const changeProfile = catchErrors(async (req, res) => {
     .toString(cryptojs.enc.Base64);
 
   //const imgLink = await uploadPhoto(imageUrl);
-  const type = (imageUrl.toString("base64")).split(';')[0].split('/')[1];
-  const imgLink = await aws_upload({file: imageUrl , filename: `profile.${type}`})
+  const type = imageUrl.toString("base64").split(";")[0].split("/")[1];
+  const imgLink = await aws_upload({
+    file: imageUrl,
+    filename: `profile.${type}`,
+  });
   const { ID } = req.user;
 
   const update = await handleQuery(`update boprita_credit.StaffAccount_0
@@ -110,26 +113,28 @@ export const authenticate = catchErrors(async (req, res) => {
   }
 });
 
-export const getUsers = catchErrors(async (req,res) => {
+export const getUsers = catchErrors(async (req, res) => {
+  const users =
+    await handleQuery(`SELECT StaffAccount_0.ID ,first_name , last_name ,email_address , helpdesk_profile ,departmentId ,d.department, d.sub_department FROM boprita_credit.StaffAccount_0
+  join helpdesk.departments as d on departmentId = d.id ${filterUsers(
+    req.params.type,
+    req.user
+  )}`);
+  console.log(req.user);
+  console.log(req.params);
+  res.send(users);
+});
 
-  const users = await handleQuery(`SELECT StaffAccount_0.ID ,first_name , last_name ,email_address , helpdesk_profile ,departmentId ,d.department, d.sub_department FROM boprita_credit.StaffAccount_0
-  join helpdesk.departments as d on departmentId = d.id ${filterUsers(req.params.type ,req.user)}`)
-  console.log(req.user)
-  console.log(req.params)
-  res.send(users)
-})
-
-function filterUsers(type , user){
-  if(!type) return ""
-    if(user.system_role== 'supervisor'){
-      return ` where d.sub_department='${user.sub_department}'`
-    }
-    if(user.system_role== 'developer'){
-      return ` where d.department='${user.dept}'`
-    }
-    if(user.system_role== 'Head Of Department')
-    {
-      return ` where d.department='${user.dept}'`
-    }
- return ''
+function filterUsers(type, user) {
+  if (!type) return "";
+  if (user.system_role == "supervisor") {
+    return ` where d.sub_department='${user.sub_department}'`;
+  }
+  if (user.system_role == "developer") {
+    return ` where d.department='${user.dept}'`;
+  }
+  if (user.system_role == "Head Of Department") {
+    return ` where d.department='${user.dept}'`;
+  }
+  return "";
 }

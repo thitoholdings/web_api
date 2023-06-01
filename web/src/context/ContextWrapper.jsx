@@ -7,13 +7,14 @@ import React, {
 } from "react";
 import GlobalContext from "./GlobalContext";
 import dayjs from "dayjs";
-import { statusClasses } from "../components/variables/variables";
 import axios from "axios";
 import _ from "lodash";
+import staffIds from "../components/variables/variables";
 
 function savedEventsReducer(state, { type, payload }) {
   switch (type) {
     case "new":
+      //console.trace(payload);
       return [...payload];
     case "push":
       return [...state, payload];
@@ -42,29 +43,34 @@ export default function ContextWrapper(props) {
   const [isScrolling, setScrolling] = useState(false);
   const [loading, setLoading] = useState(false);
   const [duration, setDuration] = useState(50);
+  const [token, setToken] = useState(null);
+  const [user, setUser] = useState(null);
   const [savedEvents, dispatchCalEvent] = useReducer(
     savedEventsReducer,
     [],
     initEvents
   );
 
-  const [effect, setEffect] = useState(true);
-
   useLayoutEffect(() => {
-    console.log("effect get Context");
     setLoading(false);
     axios
       .get("https://office.thitoholdings.co.bw/web_api/tasks/getContext")
       .then((res) => {
         const events = JSON.parse(res.data[0].context);
+        const uniqueEv = _.uniqBy(events, (task) => task.id);
+
+        const userIds = uniqueEv.map((ev) => {
+          const user = staffIds.find((staff) => staff.name == ev.assignee);
+
+          if (user) return { ...ev, userId: user.id };
+          return { ...ev, userId: 0 };
+        });
+
         dispatchCalEvent({
           type: "new",
-          payload: _.uniqBy(events, (task) => task.id),
+          payload: userIds,
         });
-        localStorage.setItem(
-          "savedEvents",
-          _.uniqBy(events, (task) => task.id)
-        );
+        localStorage.setItem("savedEvents", userIds);
       })
       .then(() => setLoading(true))
       .catch(console.log);
@@ -85,7 +91,6 @@ export default function ContextWrapper(props) {
   }, [savedEvents, labels, status]);
 
   useEffect(() => {
-    console.log("local storage");
     localStorage.setItem("savedEvents", JSON.stringify(savedEvents));
   }, [savedEvents]);
 
@@ -166,6 +171,10 @@ export default function ContextWrapper(props) {
         setScrolling,
         setDuration,
         duration,
+        token,
+        setToken,
+        user,
+        setUser,
       }}
     >
       {props.children}

@@ -108,7 +108,7 @@ export default function CalendarHeader({ sidebar, setSidebar }) {
           checked={isScrolling}
           onChange={() => setScrolling(!isScrolling)}
         />
-        {isScrolling ? "Stop" : "Start"} Animation
+        {isScrolling ? "Stop" : "Start"} Animation : {duration}
       </label>
       <label
         style={{

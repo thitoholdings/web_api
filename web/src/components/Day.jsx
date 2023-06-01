@@ -3,9 +3,11 @@ import React, { useContext, useState, useEffect } from "react";
 import GlobalContext from "../context/GlobalContext";
 import { getCompanyTitleAB, getStatusColor } from "./utils/getCompanyTitle";
 import Tooltip from "@mui/material/Tooltip";
+import { getStoredAuthToken } from "./utils/authToken";
 
 export default function Day({ day, rowIdx }) {
   const [dayEvents, setDayEvents] = useState([]);
+  const data = JSON.parse(getStoredAuthToken());
   const {
     setDaySelected,
     setShowEventModal,
@@ -15,7 +17,9 @@ export default function Day({ day, rowIdx }) {
 
   useEffect(() => {
     const events = filteredEvents.filter(
-      (evt) => dayjs(evt.day).format("DD-MM-YY") === day.format("DD-MM-YY")
+      (evt) =>
+        dayjs(evt.day).format("DD-MM-YY") === day.format("DD-MM-YY") &&
+        isSupervisor(evt)
     );
     setDayEvents(events);
   }, [filteredEvents, day]);
@@ -25,6 +29,16 @@ export default function Day({ day, rowIdx }) {
       ? "bg-blue-600 text-white rounded-full w-7"
       : "";
   }
+
+  function isSupervisor(evt) {
+    if (data.system_role == "supervisor") {
+      return true;
+    }
+
+    if (evt.userId != 0) return false;
+    return true;
+  }
+
   return (
     <div className="border border-gray-200 flex flex-col">
       <header className="flex flex-col items-center">
