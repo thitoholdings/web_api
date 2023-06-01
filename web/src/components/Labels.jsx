@@ -1,6 +1,8 @@
 import React, { useContext, useState } from "react";
 import GlobalContext from "../context/GlobalContext";
 import getCompanyTitle, { getStatusColor } from "./utils/getCompanyTitle";
+import { removeStoredAuthToken, removeStoredUserInfo } from "./utils/authToken";
+import { useNavigate } from "react-router-dom";
 
 function camelize(str) {
   return str
@@ -11,8 +13,9 @@ function camelize(str) {
 }
 
 export default function Labels() {
-  const { labels, updateLabel, status, updateStatusLabel } =
+  const { labels, updateLabel, status, updateStatusLabel, setToken, setUser } =
     useContext(GlobalContext);
+  const navigate = useNavigate();
 
   const statusClasses = [
     { label: "gray", checked: true },
@@ -80,11 +83,23 @@ export default function Labels() {
     );
   }
 
+  function signOut() {
+    //removeStoredUserInfo();
+    removeStoredAuthToken();
+    navigate("/login");
+  }
+
   return (
     <React.Fragment>
-      <button onClick={() => console.log(status)}>Hello</button>
       <TaskStatusLabel />
       <CompanyLabel />
+      <button
+        className="rounded"
+        style={{ backgroundColor: "lightblue", marginTop: 100, padding: 5 }}
+        onClick={() => signOut()}
+      >
+        🔑 Log Out
+      </button>
     </React.Fragment>
   );
 }

@@ -13,6 +13,11 @@ module.exports = {
 
   darkMode: false, // or 'media' or 'class'
   theme: {
+    colors: {
+      backfont: "#fc466b",
+      white: "#fff",
+      black: "#000",
+    },
     extend: {
       fontFamily: {
         sans: ["Open Sans"],
