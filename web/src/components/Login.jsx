@@ -167,7 +167,12 @@ export default function Login() {
     });
 
     axios
-      .post("http://localhost:3001/users/authenticate", {
+      .post("https://office.thitoholdings.co.bw/users/authenticate", {
+
+                    headers: {
+              "Content-Type": "application/json",
+        },
+        
         username: data.get("email"),
         password: data.get("password"),
       })
@@ -180,6 +185,9 @@ export default function Login() {
 
         storeAuthToken(
           JSON.stringify({
+            headers: {
+              "Content-Type": "application/json",
+            },
             first_name,
             last_name,
             ID,
