@@ -55,7 +55,7 @@ export const createContext = catchErrors(async (req, res) => {
 export const getContext = catchErrors(async (req, res) => {
   console.log("getting context");
   const select = await handleQuery(
-    "SELECT * FROM task_context ORDER BY id DESC LIMIT 1;"
+    "SELECT * FROM helpdesk.task_context ORDER BY id DESC LIMIT 1;"
   );
 
   res.send(select);

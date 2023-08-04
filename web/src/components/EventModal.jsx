@@ -8,6 +8,8 @@ import getCompanyTitle, {
 import getNext12Months from "./utils/getNext12Months";
 import axios from "axios";
 import { getStoredAuthToken } from "./utils/authToken";
+import { backgroundColor } from "tailwindcss/defaultTheme";
+
 
 const labelsClasses = ["red", "indigo", "gray", "green", "blue", "purple"];
 const statusClasses = ["gray", "red", "yellow", "green"];
@@ -60,6 +62,33 @@ export default function EventModal() {
       }
     );
   }
+
+  //  function handle(event) {
+  //   event.preventDefault();
+
+  //   const data = new FormData(event.currentTarget);
+
+  //   console.log({
+  //     assignee: data.get("assignee"),
+      
+  //   });
+
+  //    axios
+  //      .post("http://localhost/web_api/users/getUsers2", {
+
+  //        headers: {
+  //          "Content-Type": "application/json",
+  //        },
+        
+  //        assignee: data.get("assignee"),
+  
+  //      })
+  //      .then((res) => {
+  //        const { first_name, last_name, ID, helpdesk_profile, system_role } =
+  //          res.data.user;
+
+  //        console.log(res.data);
+  //    })
 
   const getCircularReplacer = () => {
     const seen = new WeakSet();
@@ -250,7 +279,7 @@ export default function EventModal() {
                 </span>
                 <input
                   type="text"
-                  name="description"
+                  name="assignee"
                   placeholder="Assignee"
                   value={assignee}
                   required
@@ -330,22 +359,32 @@ export default function EventModal() {
                 </div>
               </div>
             </div>
-            <footer className="flex justify-between border-t p-3 mt-5">
+            <div className="flex justify-between border-t p-3 mt-5">
               <button
                 type="submit"
+                className="bg-red-500 hover:bg-red-600  px-6 py-2 rounded text-white"
+                style={{
+                    backgroundColor: "#4CAF50",
+                }}
+
                 onClick={() => markAsDone()}
-                className="bg-red-500 hover:bg-red-600 px-6 py-2 rounded text-white"
+                
+
               >
                 Done
               </button>
               <button
                 type="submit"
-                onClick={handleSubmit}
                 className="bg-blue-500 hover:bg-blue-600 px-6 py-2 rounded text-white"
+                style={{
+                    backgroundColor: "#2196F3",
+                }}
+                onClick={handleSubmit}
+                
               >
                 Save
               </button>
-            </footer>
+            </div>
           </form>
         </div>
       )}

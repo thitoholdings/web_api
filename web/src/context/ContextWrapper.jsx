@@ -10,6 +10,7 @@ import dayjs from "dayjs";
 import axios from "axios";
 import _ from "lodash";
 import staffIds from "../components/variables/variables";
+import { getStoredAuthToken, getStoredUserInfo } from "../components/utils/authToken";
 
 function savedEventsReducer(state, { type, payload }) {
   switch (type) {
@@ -58,11 +59,25 @@ export default function ContextWrapper(props) {
       .then((res) => {
         const events = JSON.parse(res.data[0].context);
         const uniqueEv = _.uniqBy(events, (task) => task.id);
-
+        const data = JSON.parse(getStoredAuthToken());
+        // const userInfo = JSON.parse(getStoredUserInfo());
+        // const getAllusers = JSON.parse(getAllUsers());
+        // console.log(getAllUsers);
+        // getUsersId();
+        console.log('I am data:'+data)
         const userIds = uniqueEv.map((ev) => {
-          const user = staffIds.find((staff) => staff.name == ev.assignee);
-
-          if (user) return { ...ev, userId: user.id };
+          //const user = staffIds.find((staff) => staff.name == ev.assignee);
+          //const user = staffIds.find((staff) => staff.name != ev.assignee);
+          //const user = staffIds.find((staff) =>staff.id == ev.userId);
+          //const user = (staffIds.find((staff) =>staff.name) == data.first_name && staff.name == ev.assignee );
+          //const user = data.ID == ev.userId;
+          //console.log(user + '----- user without id')
+          //const user = staffIds.find((data) => data.id == ev.userId);
+          //const user = staffids.find((data) => data.id == ev.userId);
+          const user =  data.ID != ev.userId;
+          // const user = userInfo.find((data) => data.id == ev.userId);
+          if (user)
+            return { ...ev, userId: user.id };
           return { ...ev, userId: 0 };
         });
 
