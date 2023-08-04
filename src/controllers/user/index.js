@@ -138,3 +138,46 @@ function filterUsers(type, user) {
   }
   return "";
 }
+
+
+// export const getAllUsers = catchErrors(async (req, res) => {
+//   const users =
+//     await handleQuery(`SELECT StaffAccount_0.ID ,first_name , last_name ,email_address , helpdesk_profile ,departmentId ,d.department, d.sub_department FROM boprita_credit.StaffAccount_0
+//   join helpdesk.departments as d on departmentId = d.id `);
+//   console.log(req.user);
+//   console.log(req.params);
+//   res.send(users);
+// });
+
+  // getUserIdFromContextJson(() => {
+  //   axios
+  //     .get("http://localhost:3001/web_api/tasks/getContext")
+  //     .then((res) => {
+  //       const events = JSON.parse(res.data[0].context);
+  //       const uniqueEv = _.uniqBy(events, (task) => task.id);
+  //       const data = JSON.parse(getStoredAuthToken());
+  //       console.log("----getUserIdFromContextJson()");
+  //       const userIds = uniqueEv.map((ev) => {
+  //         if (user) return { ...ev, userId: user.id };
+  //         return { ...ev, userId: 1 };
+  //       });
+
+  //       localStorage.setItem("savedEvents", userIds);
+  //     })
+  //     .then(() => setLoading(true))
+  //     .catch(console.log);
+  // }, []);
+
+
+
+
+
+// export const getUsersId = catchErrors(async (req, res) => {
+//   console.log(getUserIdFromContextJson())
+  // const users =
+  //   await handleQuery(`SELECT StaffAccount_0.ID ,first_name , last_name d.id FROM boprita_credit.StaffAccount_0
+  // join helpdesk.task_context as d on StaffAccount_0.ID = ${getUserIdFromContextJson()}`);
+  // console.log(req.user);
+  // console.log(req.params);
+  // res.send(users);
+// });

@@ -11,5 +11,6 @@ usersRouter.post("/sendOTP", users.sendOTP )
 usersRouter.post("/createUser",authenticateToken , users.createUser)
 usersRouter.post("/resetPassword" ,users.resetPassword)
 usersRouter.get("/checkEmail/:email" , users.checkEmailAddress)
+// usersRouter.get("/getALLUsers", authenticateToken, users.getUsers)
 usersRouter.get("/getUsers/:type?", authenticateToken , users.getUsers)
 export default usersRouter
