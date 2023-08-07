@@ -56,7 +56,7 @@ export default function EventModal() {
     }
     setShowEventModal(false);
     const updateDB = await axios.post(
-      "https://office.thitoholdings.co.bw/web_api/tasks/addContext",
+      "http://locahlhost/web_api/tasks/addContext",
       {
         context: JSON.stringify(context.savedEvents),
       }
@@ -141,7 +141,7 @@ export default function EventModal() {
         });
 
         const update = await axios.post(
-          "https://office.thitoholdings.co.bw/web_api/tasks/addContext",
+          "http://localhost:3001/web_api/tasks/addContext",
           {
             context: JSON.stringify(savedEv),
           }
@@ -159,7 +159,7 @@ export default function EventModal() {
         });
 
         const update = await axios.post(
-          "https://office.thitoholdings.co.bw/web_api/tasks/addContext",
+          "http://localhost:3001/web_api/tasks/addContext",
           {
             context: JSON.stringify(savedEv),
           }
@@ -191,7 +191,7 @@ export default function EventModal() {
     }
     setShowEventModal(false);
     const updateDB = await axios.post(
-      "https://office.thitoholdings.co.bw/web_api/tasks/addContext",
+      "http://localhost:3001/web_api/tasks/addContext",
       {
         context: JSON.stringify(context.savedEvents),
       }
@@ -206,7 +206,7 @@ export default function EventModal() {
     setShowEventModal(false);
 
     const updateDB = await axios.post(
-      "https://office.thitoholdings.co.bw/web_api/tasks/addContext",
+      "http://localhost:3001/web_api/tasks/addContext",
       {
         context: JSON.stringify(context.savedEvents),
       }
