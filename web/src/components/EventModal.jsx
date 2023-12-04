@@ -10,7 +10,6 @@ import axios from "axios";
 import { getStoredAuthToken } from "./utils/authToken";
 import { backgroundColor } from "tailwindcss/defaultTheme";
 
-
 const labelsClasses = ["red", "indigo", "gray", "green", "blue", "purple"];
 const statusClasses = ["gray", "red", "yellow", "green"];
 
@@ -62,33 +61,6 @@ export default function EventModal() {
       }
     );
   }
-
-  //  function handle(event) {
-  //   event.preventDefault();
-
-  //   const data = new FormData(event.currentTarget);
-
-  //   console.log({
-  //     assignee: data.get("assignee"),
-      
-  //   });
-
-  //    axios
-  //      .post("http://localhost/web_api/users/getUsers2", {
-
-  //        headers: {
-  //          "Content-Type": "application/json",
-  //        },
-        
-  //        assignee: data.get("assignee"),
-  
-  //      })
-  //      .then((res) => {
-  //        const { first_name, last_name, ID, helpdesk_profile, system_role } =
-  //          res.data.user;
-
-  //        console.log(res.data);
-  //    })
 
   const getCircularReplacer = () => {
     const seen = new WeakSet();
@@ -169,36 +141,37 @@ export default function EventModal() {
         return;
       }
     } else {
+      // Create new events logic
       const next12Months = getNext12Months(daySelected.valueOf()).map(
         (date) => ({
           ...calendarEvent,
           day: date,
+          id: Date.now(), // Generate a unique ID for each new event
         })
       );
 
-      console.log("--------------------------------------------");
-
-      console.log(next12Months);
-      const key = Date.now();
       next12Months.forEach((calEvent) => {
-        const rand = Math.floor(Math.random() * 1000) + 1;
-        console.log(rand);
         dispatchCalEvent({
           type: "push",
-          payload: { ...calEvent, id: Date.now() + rand, key },
+          payload: calEvent,
         });
       });
+
+      const updatedEvents = [...context.savedEvents, ...next12Months];
+
+      // Update the context with the updated events data
+      const updateDB = await axios.post(
+        "http://localhost:3001/web_api/tasks/addContext",
+        {
+          context: JSON.stringify(updatedEvents),
+        }
+      );
     }
+
     setShowEventModal(false);
-    const updateDB = await axios.post(
-      "http://localhost:3001/web_api/tasks/addContext",
-      {
-        context: JSON.stringify(context.savedEvents),
-      }
-    );
   }
 
-  async function deleteEvent() {
+  /*async function deleteEvent() {
     dispatchCalEvent({
       type: "delete",
       payload: selectedEvent,
@@ -211,6 +184,28 @@ export default function EventModal() {
         context: JSON.stringify(context.savedEvents),
       }
     );
+  }*/
+
+  async function deleteEvent() {
+    if (selectedEvent) {
+      // Filter out the selected event from the context's savedEvents
+      const updatedEvents = context.savedEvents.filter(
+        (event) => event.id !== selectedEvent.id
+      );
+
+      // Dispatch the updated events to reflect the deletion
+      dispatchCalEvent({ type: "delete", payload: selectedEvent });
+
+      setShowEventModal(false);
+
+      // Update the context with the updated events data
+      const updateDB = await axios.post(
+        "http://localhost:3001/web_api/tasks/addContext",
+        {
+          context: JSON.stringify(updatedEvents),
+        }
+      );
+    }
   }
 
   return (
@@ -364,12 +359,9 @@ export default function EventModal() {
                 type="submit"
                 className="bg-red-500 hover:bg-red-600  px-6 py-2 rounded text-black"
                 style={{
-                    backgroundColor: #4CAF50,
+                  backgroundColor: "#4CAF50",
                 }}
-
                 onClick={() => markAsDone()}
-                
-
               >
                 Done
               </button>
@@ -377,10 +369,9 @@ export default function EventModal() {
                 type="submit"
                 className="bg-blue-500 hover:bg-blue-600 px-6 py-2 rounded text-black"
                 style={{
-                    backgroundColor: "#2196F3",
+                  backgroundColor: "#2196F3",
                 }}
                 onClick={handleSubmit}
-                
               >
                 Save
               </button>

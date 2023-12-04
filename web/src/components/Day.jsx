@@ -19,7 +19,9 @@ export default function Day({ day, rowIdx }) {
     const events = filteredEvents.filter(
       (evt) =>
         dayjs(evt.day).format("DD-MM-YY") === day.format("DD-MM-YY") &&
-        isSupervisor(evt)
+        (isSupervisor(evt) ||
+          (data.system_role === "service_desk" &&
+            evt.assignee === data.first_name))
     );
     setDayEvents(events);
   }, [filteredEvents, day]);
