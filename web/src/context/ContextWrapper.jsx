@@ -58,7 +58,7 @@ export default function ContextWrapper(props) {
   useLayoutEffect(() => {
     setLoading(false);
     axios
-      .get("https://office.thitoholdings.co.bw/web_api/tasks/getContext")
+      .get("http://localhost:3001/web_api/tasks/getContext")
       .then((res) => {
         const events = JSON.parse(res.data[0].context);
         const uniqueEv = _.uniqBy(events, (task) => task.id);
