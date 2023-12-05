@@ -10,7 +10,10 @@ import dayjs from "dayjs";
 import axios from "axios";
 import _ from "lodash";
 import staffIds from "../components/variables/variables";
-import { getStoredAuthToken, getStoredUserInfo } from "../components/utils/authToken";
+import {
+  getStoredAuthToken,
+  getStoredUserInfo,
+} from "../components/utils/authToken";
 
 function savedEventsReducer(state, { type, payload }) {
   switch (type) {
@@ -55,7 +58,7 @@ export default function ContextWrapper(props) {
   useLayoutEffect(() => {
     setLoading(false);
     axios
-      .get("http://localhost:3001/web_api/tasks/getContext")
+      .get("http://office.thitoholdings.co.bw/web_api/tasks/getContext")
       .then((res) => {
         const events = JSON.parse(res.data[0].context);
         const uniqueEv = _.uniqBy(events, (task) => task.id);
@@ -64,7 +67,7 @@ export default function ContextWrapper(props) {
         // const getAllusers = JSON.parse(getAllUsers());
         // console.log(getAllUsers);
         // getUsersId();
-        console.log('I am data:'+data)
+        console.log("I am data:" + data);
         const userIds = uniqueEv.map((ev) => {
           //const user = staffIds.find((staff) => staff.name == ev.assignee);
           //const user = staffIds.find((staff) => staff.name != ev.assignee);
@@ -74,10 +77,9 @@ export default function ContextWrapper(props) {
           //console.log(user + '----- user without id')
           //const user = staffIds.find((data) => data.id == ev.userId);
           //const user = staffids.find((data) => data.id == ev.userId);
-          const user =  data.ID != ev.userId;
+          const user = data.ID != ev.userId;
           // const user = userInfo.find((data) => data.id == ev.userId);
-          if (user)
-            return { ...ev, userId: user.id };
+          if (user) return { ...ev, userId: user.id };
           return { ...ev, userId: 0 };
         });
 
