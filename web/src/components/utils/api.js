@@ -3,7 +3,7 @@ import { objectToQueryString } from "./url.js";
 import { getStoredAuthToken } from "./authToken";
 
 const defaults = {
-  baseURL: "https://sycamon.thitoholdings.co.bw",
+  baseURL: "http://localhost:3003",
   headers: () => ({
     "Content-Type": "application/json",
     Authorization: getStoredAuthToken()
