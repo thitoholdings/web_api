@@ -167,7 +167,7 @@ export default function Login() {
     });
 
     axios
-      .post("http://sycamon.thitoholdings.co.bw:3003/users/authenticate", {
+      .post("http://localhost:3003/users/authenticate", {
         headers: {
           "Content-Type": "application/json",
         },
