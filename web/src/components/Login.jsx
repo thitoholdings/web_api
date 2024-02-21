@@ -167,12 +167,11 @@ export default function Login() {
     });
 
     axios
-      .post("http://localhost:3001/users/authenticate", {
-
-                    headers: {
-              "Content-Type": "application/json",
+      .post("http://localhost:3003/users/authenticate", {
+        headers: {
+          "Content-Type": "application/json",
         },
-        
+
         username: data.get("email"),
         password: data.get("password"),
       })
