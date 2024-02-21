@@ -55,7 +55,7 @@ export default function EventModal() {
     }
     setShowEventModal(false);
     const updateDB = await axios.post(
-      "http://localhost:3003/web_api/tasks/addContext",
+      "http://sycamon.thitoholdings.co.bw/web_api/tasks/addContext",
       {
         context: JSON.stringify(context.savedEvents),
       }
@@ -113,7 +113,7 @@ export default function EventModal() {
         });
 
         const update = await axios.post(
-          "http://localhost:3003/web_api/tasks/addContext",
+          "http://sycamon.thitoholdings.co.bw/web_api/tasks/addContext",
           {
             context: JSON.stringify(savedEv),
           }
@@ -131,7 +131,7 @@ export default function EventModal() {
         });
 
         const update = await axios.post(
-          "http://localhost:3003/web_api/tasks/addContext",
+          "http://sycamon.thitoholdings.co.bw/web_api/tasks/addContext",
           {
             context: JSON.stringify(savedEv),
           }
@@ -161,7 +161,7 @@ export default function EventModal() {
 
       // Update the context with the updated events data
       const updateDB = await axios.post(
-        "http://localhost:3003/web_api/tasks/addContext",
+        "http://sycamon.thitoholdings.co.bw/web_api/tasks/addContext",
         {
           context: JSON.stringify(updatedEvents),
         }
@@ -200,7 +200,7 @@ export default function EventModal() {
 
       // Update the context with the updated events data
       const updateDB = await axios.post(
-        "http://localhost:3003/web_api/tasks/addContext",
+        "http://sycamon.thitoholdings.co.bw/web_api/tasks/addContext",
         {
           context: JSON.stringify(updatedEvents),
         }
