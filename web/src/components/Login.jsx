@@ -167,7 +167,7 @@ export default function Login() {
     });
 
     axios
-      .post("http://office.thitoholdings.co.bw/users/authenticate", {
+      .post("https://office.thitoholdings.co.bw/users/authenticate", {
         headers: {
           "Content-Type": "application/json",
         },
