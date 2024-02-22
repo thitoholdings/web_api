@@ -131,7 +131,7 @@ export default function EventModal() {
         });
 
         const update = await axios.post(
-          "http://sycamon.thitoholdings.co.bw/web_api/tasks/addContext",
+          "https://office.thitoholdings.co.bw/web_api/tasks/addContext",
           {
             context: JSON.stringify(savedEv),
           }
